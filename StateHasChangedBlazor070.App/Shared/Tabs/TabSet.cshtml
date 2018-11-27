@@ -11,32 +11,60 @@
 </div>
 
 @functions {
-[Parameter] RenderFragment ChildContent { get; set; }
+    [Parameter] RenderFragment ChildContent { get; set; }
 
-public ITab ActiveTab { get; private set; }
+    [Parameter] protected int DefaultTab { get; set; }
 
-public void AddTab(ITab tab)
-{
-    if (ActiveTab == null)
+    [Parameter]
+    protected int Selected
     {
-        SetActivateTab(tab);
+        get
+        {
+            return selected.Value;
+        }
+        set
+        {
+            if (value >= 0 && value <= tabs.Count - 1)
+            {
+                SetActiveTab(tabs[value]);
+            }
+        }
     }
-}
 
-public void RemoveTab(ITab tab)
-{
-    if (ActiveTab == tab)
-    {
-        SetActivateTab(null);
-    }
-}
+    [Parameter] protected Action<int> SelectedChanged { get; set; }
 
-public void SetActivateTab(ITab tab)
-{
-    if (ActiveTab != tab)
+    public ITab ActiveTab { get; private set; }
+
+    private int? selected;
+
+    private List<ITab> tabs = new List<ITab>();
+
+    public void AddTab(ITab tab)
     {
-        ActiveTab = tab;
-        StateHasChanged();
+        tabs.Add(tab);
+        if (ActiveTab == null || tabs.Count -1 == DefaultTab)
+        {
+            SetActiveTab(tab);
+        }
     }
-}
+
+    public void RemoveTab(ITab tab)
+    {
+        tabs.Remove(tab);
+        if (ActiveTab == tab)
+        {
+            SetActiveTab(null);
+        }
+    }
+
+    public void SetActiveTab(ITab tab)
+    {
+        if (ActiveTab != tab)
+        {
+            ActiveTab = tab;
+            selected = tabs.IndexOf(tab);
+            SelectedChanged?.Invoke(selected.Value);
+            StateHasChanged();
+        }
+    }
 }

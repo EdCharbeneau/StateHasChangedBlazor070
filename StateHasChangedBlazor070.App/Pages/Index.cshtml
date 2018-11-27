@@ -1,30 +1,44 @@
 ﻿@page "/"
 
-<TabSet>
+<TabSet bind-Selected="@SelectedTab" DefaultTab="2">
     <Tab Title="First tab">
         <h4>First tab</h4>
         This is the first tab.
     </Tab>
 
-    @if (showSecondTab)
-    {
-        <Tab Title="Second">
-            <h4>Second tab</h4>
-            You can toggle me.
-        </Tab>
-    }
+    <Tab Title="Second">
+        <h4>Second tab</h4>
+        You can toggle me.
+    </Tab>
 
     <Tab Title="Third">
         <h4>Third tab</h4>
 
         <label>
-            <input type="checkbox" bind=@showSecondTab />
             Toggle second tab
         </label>
     </Tab>
 </TabSet>
 
+<p>Change value to select at runtime</p>
+<div>
+    <span>Tab Selected: </span>
+    <input type="number" bind="@SelectedTab" />
+</div>
+
 @functions
 {
-bool showSecondTab;
+int selectedTab;
+
+// This extra prop is a temporary fix for: https://github.com/aspnet/Blazor/issues/610
+int SelectedTab
+{
+    get => selectedTab;
+    set
+    {
+        selectedTab = value;
+        StateHasChanged();
+    }
+}
+
 }

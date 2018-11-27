@@ -2,30 +2,31 @@
 @implements ITab
 
 <li>
-    <a onclick=@Activate class="nav-link @TitleCssClass" href="">
+    <a onclick=@Activate class="nav-link @ActiveCssClass" href="">
         @Title
     </a>
 </li>
 
 @functions {
-[CascadingParameter] TabSet ContainerTabSet { get; set; }
-[Parameter] string Title { get; set; }
-[Parameter] public RenderFragment ChildContent { get; private set; }
+    [CascadingParameter] TabSet ContainerTabSet { get; set; }
+    [Parameter] string Title { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; private set; }
 
-string TitleCssClass => ContainerTabSet.ActiveTab == this ? "active" : null;
+    bool IsActive => ContainerTabSet.ActiveTab == this;
+    string ActiveCssClass => IsActive ? "active" : String.Empty;
 
-protected override void OnInit()
-{
-    ContainerTabSet.AddTab(this);
-}
+    protected override void OnInit()
+    {
+        ContainerTabSet.AddTab(this);
+    }
 
-public void Dispose()
-{
-    ContainerTabSet.RemoveTab(this);
-}
+    public void Dispose()
+    {
+        ContainerTabSet.RemoveTab(this);
+    }
 
-void Activate()
-{
-    ContainerTabSet.SetActivateTab(this);
-}
+    void Activate()
+    {
+        ContainerTabSet.SetActiveTab(this);
+    }
 }
