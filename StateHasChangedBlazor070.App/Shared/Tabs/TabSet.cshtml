@@ -11,32 +11,32 @@
 </div>
 
 @functions {
-[Parameter] RenderFragment ChildContent { get; set; }
+    [Parameter] RenderFragment ChildContent { get; set; }
 
-public ITab ActiveTab { get; private set; }
+    public ITab ActiveTab { get; private set; }
 
-public void AddTab(ITab tab)
-{
-    if (ActiveTab == null)
+    public void AddTab(ITab tab)
     {
-        SetActivateTab(tab);
+        if (ActiveTab == null)
+        {
+            SetActiveTab(tab);
+        }
     }
-}
 
-public void RemoveTab(ITab tab)
-{
-    if (ActiveTab == tab)
+    public void RemoveTab(ITab tab)
     {
-        SetActivateTab(null);
+        if (ActiveTab == tab)
+        {
+            SetActiveTab(null);
+        }
     }
-}
 
-public void SetActivateTab(ITab tab)
-{
-    if (ActiveTab != tab)
+    public void SetActiveTab(ITab tab)
     {
-        ActiveTab = tab;
-        StateHasChanged();
+        if (ActiveTab != tab)
+        {
+            ActiveTab = tab;
+            StateHasChanged();
+        }
     }
-}
 }
