@@ -1,70 +1,12 @@
-﻿<!-- Display the tab headers -->
+﻿@inherits TabSetComponent
+@* Display the tab headers *@
 <CascadingValue Value=this>
     <ul class="nav nav-tabs">
         @ChildContent
     </ul>
 </CascadingValue>
 
-<!-- Display body for only the active tab -->
+ @*Display body for only the active tab*@ 
 <div class="nav-tabs-body p-4">
     @ActiveTab?.ChildContent
 </div>
-
-@functions {
-    [Parameter] RenderFragment ChildContent { get; set; }
-
-    [Parameter] protected int DefaultTab { get; set; }
-
-    [Parameter]
-    protected int Selected
-    {
-        get
-        {
-            return selected.Value;
-        }
-        set
-        {
-            if (value >= 0 && value <= tabs.Count - 1)
-            {
-                SetActiveTab(tabs[value]);
-            }
-        }
-    }
-
-    [Parameter] protected Action<int> SelectedChanged { get; set; }
-
-    public ITab ActiveTab { get; private set; }
-
-    private int? selected;
-
-    private List<ITab> tabs = new List<ITab>();
-
-    public void AddTab(ITab tab)
-    {
-        tabs.Add(tab);
-        if (ActiveTab == null || tabs.Count -1 == DefaultTab)
-        {
-            SetActiveTab(tab);
-        }
-    }
-
-    public void RemoveTab(ITab tab)
-    {
-        tabs.Remove(tab);
-        if (ActiveTab == tab)
-        {
-            SetActiveTab(null);
-        }
-    }
-
-    public void SetActiveTab(ITab tab)
-    {
-        if (ActiveTab != tab)
-        {
-            ActiveTab = tab;
-            selected = tabs.IndexOf(tab);
-            SelectedChanged?.Invoke(selected.Value);
-            StateHasChanged();
-        }
-    }
-}
