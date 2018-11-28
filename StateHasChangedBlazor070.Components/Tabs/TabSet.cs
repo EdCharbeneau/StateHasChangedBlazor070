@@ -21,13 +21,10 @@ namespace StateHasChangedBlazor070.Components.Tabs
         /// </summary>
         protected int Selected
         {
-            get
-            {
-                return selected.Value;
-            }
+            get => selected.GetValueOrDefault(-1);
             set
             {
-                if (value >= 0 && value <= tabs.Count - 1)
+                if (value >= 0 && value <= tabs?.Count - 1)
                 {
                     SetActiveTab(tabs[value]);
                 }
