@@ -9,26 +9,22 @@ namespace StateHasChangedBlazor070.Components.Tabs
     {
         [Parameter] protected RenderFragment ChildContent { get; set; }
 
+        [Parameter]
         /// <summary>
         /// Sets the default tab when the component initializes.
         /// </summary>
-        int defaultTab;
+        Enum DefaultTab { get; set; }
 
         [Parameter]
         /// <summary>
         /// Gets or Sets the current tab selection.
         /// </summary>
-        protected int Selected
+        protected Enum Selected
         {
-            get => selected.GetValueOrDefault(-1);
+            get => selected ?? DefaultTab;
             set
             {
-                if (!selected.HasValue)
-                {
-                    // When an inital value is given, set the defaultTab value
-                    defaultTab = value;
-                } 
-                else if (value >= 0 && value <= tabs?.Count - 1)
+                if (tabs.ContainsKey(value))
                 {
                     SetActiveTab(tabs[value]);
                 }
@@ -39,16 +35,16 @@ namespace StateHasChangedBlazor070.Components.Tabs
         /// <summary>
         /// The Action invoked when the Selected value is changed.
         /// </summary>
-        protected Action<int> SelectedChanged { get; set; }
+        protected Action<Enum> SelectedChanged { get; set; }
 
         /// <summary>
         /// Active tab state consumed by child tab components
         /// </summary>
         public ITab ActiveTab { get; private set; }
 
-        protected int? selected;
+        protected Enum selected;
 
-        protected List<ITab> tabs = new List<ITab>();
+        protected Dictionary<Enum, ITab> tabs = new Dictionary<Enum, ITab>();
 
         /// <summary>
         /// Registers a Tab within a TabSet
@@ -56,8 +52,8 @@ namespace StateHasChangedBlazor070.Components.Tabs
         /// <param name="tab"></param>
         public void AddTab(ITab tab)
         {
-            tabs.Add(tab);
-            if (ActiveTab == null || tabs.Count - 1 == defaultTab)
+            tabs.Add(tab.Name, tab);
+            if (ActiveTab == null || DefaultTab == null || (tab.Name.ToString() == DefaultTab.ToString() && tab.Name.GetType().Name == DefaultTab.GetType().Name))
             {
                 SetActiveTab(tab);
             }
@@ -69,7 +65,7 @@ namespace StateHasChangedBlazor070.Components.Tabs
         /// <param name="tab"></param>
         public void RemoveTab(ITab tab)
         {
-            tabs.Remove(tab);
+            tabs.Remove(tab.Name);
             if (ActiveTab == tab)
             {
                 SetActiveTab(null);
@@ -82,11 +78,11 @@ namespace StateHasChangedBlazor070.Components.Tabs
         /// <param name="tab"></param>
         public void SetActiveTab(ITab tab)
         {
-            if (ActiveTab != tab)
+            if (tab != null && ActiveTab != tab)
             {
                 ActiveTab = tab;
-                selected = tabs.IndexOf(tab);
-                SelectedChanged?.Invoke(selected.Value);
+                selected = tab.Name;
+                SelectedChanged?.Invoke(selected);
                 StateHasChanged();
             }
         }

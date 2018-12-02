@@ -11,10 +11,11 @@ namespace StateHasChangedBlazor070.Components.Tabs
 
 #pragma warning disable BL9993 // Component parameter is marked public due to ITab requirement
         [Parameter] public RenderFragment ChildContent { get; private set; }
+        [Parameter] public Enum Name { get; set; }
 #pragma warning restore BL9993 // Component parameter is marked public
 
 
-        [Parameter]         
+        [Parameter]
         /// <summary>
         /// The Tab Title
         /// </summary>

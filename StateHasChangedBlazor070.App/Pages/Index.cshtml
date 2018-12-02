@@ -1,17 +1,17 @@
 ﻿@page "/"
 
-<TabSet bind-Selected="@SelectedTab">
-    <Tab Title="First tab">
+<TabSet bind-Selected="@SelectedTab" DefaultTab=TestType.test3>*@
+    <Tab Title="First tab" Name=TestType.test1>
         <h4>First tab</h4>
         This is the first tab.
     </Tab>
 
-    <Tab Title="Second">
+    <Tab Title="Second" Name=TestType.test2>
         <h4>Second tab</h4>
         You can toggle me.
     </Tab>
 
-    <Tab Title="Third">
+    <Tab Title="Third" Name=TestType.test3>
         <h4>Third tab</h4>
 
         <label>
@@ -23,15 +23,22 @@
 <p>Change value to select at runtime</p>
 <div>
     <span>Tab Selected: </span>
-    <input type="number" bind="@SelectedTab" />
 </div>
 
 @functions
 {
-    int selectedTab = 1;
+    Enum selectedTab = TestType.test1;
+
+    public enum TestType
+    {
+      test1,
+      test2,
+      test3
+    }
+
 
     // This extra prop is a temporary fix for: https://github.com/aspnet/Blazor/issues/610
-    int SelectedTab
+    Enum SelectedTab
     {
         get => selectedTab;
         set
