@@ -9,11 +9,10 @@ namespace StateHasChangedBlazor070.Components.Tabs
     {
         [Parameter] protected RenderFragment ChildContent { get; set; }
 
-        [Parameter]
         /// <summary>
         /// Sets the default tab when the component initializes.
         /// </summary>
-        protected int DefaultTab { get; set; }
+        int defaultTab;
 
         [Parameter]
         /// <summary>
@@ -24,7 +23,12 @@ namespace StateHasChangedBlazor070.Components.Tabs
             get => selected.GetValueOrDefault(-1);
             set
             {
-                if (value >= 0 && value <= tabs?.Count - 1)
+                if (!selected.HasValue)
+                {
+                    // When an inital value is given, set the defaultTab value
+                    defaultTab = value;
+                } 
+                else if (value >= 0 && value <= tabs?.Count - 1)
                 {
                     SetActiveTab(tabs[value]);
                 }
@@ -53,7 +57,7 @@ namespace StateHasChangedBlazor070.Components.Tabs
         public void AddTab(ITab tab)
         {
             tabs.Add(tab);
-            if (ActiveTab == null || tabs.Count - 1 == DefaultTab)
+            if (ActiveTab == null || tabs.Count - 1 == defaultTab)
             {
                 SetActiveTab(tab);
             }

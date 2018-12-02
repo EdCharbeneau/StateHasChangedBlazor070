@@ -1,6 +1,6 @@
 ﻿@page "/"
 
-<TabSet bind-Selected="@SelectedTab" DefaultTab="2">
+<TabSet bind-Selected="@SelectedTab">
     <Tab Title="First tab">
         <h4>First tab</h4>
         This is the first tab.
@@ -28,17 +28,17 @@
 
 @functions
 {
-int selectedTab;
+    int selectedTab = 1;
 
-// This extra prop is a temporary fix for: https://github.com/aspnet/Blazor/issues/610
-int SelectedTab
-{
-    get => selectedTab;
-    set
+    // This extra prop is a temporary fix for: https://github.com/aspnet/Blazor/issues/610
+    int SelectedTab
     {
-        selectedTab = value;
-        StateHasChanged();
+        get => selectedTab;
+        set
+        {
+            selectedTab = value;
+            StateHasChanged();
+        }
     }
-}
 
 }
