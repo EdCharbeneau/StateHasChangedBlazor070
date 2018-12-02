@@ -15,7 +15,7 @@ namespace StateHasChangedBlazor070.Components.Tabs
 #pragma warning restore BL9993 // Component parameter is marked public
 
 
-        [Parameter]
+        [Parameter]     
         /// <summary>
         /// The Tab Title
         /// </summary>
