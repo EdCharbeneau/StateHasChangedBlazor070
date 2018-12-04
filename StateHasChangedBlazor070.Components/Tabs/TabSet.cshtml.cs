@@ -9,10 +9,7 @@ namespace StateHasChangedBlazor070.Components.Tabs
     {
         [Parameter] protected RenderFragment ChildContent { get; set; }
 
-        /// <summary>
-        /// Sets the default tab when the component initializes.
-        /// </summary>
-        int defaultTab;
+        protected int? selected;
 
         [Parameter]
         /// <summary>
@@ -20,18 +17,34 @@ namespace StateHasChangedBlazor070.Components.Tabs
         /// </summary>
         protected int Selected
         {
-            get => selected.GetValueOrDefault(-1);
-            set
+            get => selected ?? defaultTab;
+            set => SetSelectedOrDefault(value);
+        }
+
+        /// <summary>
+        /// Sets the default tab when the component initializes.
+        /// </summary>
+        int defaultTab;
+
+        private void SetSelectedOrDefault(int value)
+        {
+            if (selected.HasValue)
             {
-                if (!selected.HasValue)
-                {
-                    // When an inital value is given, set the defaultTab value
-                    defaultTab = value;
-                } 
-                else if (value >= 0 && value <= tabs?.Count - 1)
-                {
-                    SetActiveTab(tabs[value]);
-                }
+                SetSelected(value);
+            }
+            else
+            {
+                SetDefault(value);
+            }
+        }
+
+        void SetDefault(int value) => defaultTab = value;
+        void SetSelected(int value)
+        {
+            bool isInRange = value >= 0 && value <= tabs.Count - 1;
+            if (isInRange)
+            {
+                SetActiveTab(tabs[value]);
             }
         }
 
@@ -45,9 +58,7 @@ namespace StateHasChangedBlazor070.Components.Tabs
         /// Active tab state consumed by child tab components
         /// </summary>
         public ITab ActiveTab { get; private set; }
-
-        protected int? selected;
-
+        
         protected List<ITab> tabs = new List<ITab>();
 
         /// <summary>
