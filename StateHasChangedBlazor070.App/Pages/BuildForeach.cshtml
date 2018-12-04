@@ -1,0 +1,20 @@
+﻿@page "/build-foreach"
+
+<h1>Build with foreach</h1>
+
+<TabSet>
+    @foreach (var item in tabs)
+    {
+        <Tab Title="@($"{item} tab")">
+            <h4>@item tab</h4>
+            @item tab content
+        </Tab>
+    }
+</TabSet>
+
+@functions
+{
+
+    string[] tabs = { "First", "Second", "Third" };
+
+}

@@ -18,4 +18,19 @@
     <ProjectReference Include="..\StateHasChangedBlazor070.Components\StateHasChangedBlazor070.Components.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Pages\BuildForeach.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Pages\OnSelected.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Pages\SetSelected.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Pages\BindSelected.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  </ItemGroup>
+
 </Project>

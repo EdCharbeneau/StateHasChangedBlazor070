@@ -1,0 +1,43 @@
+﻿@page "/bind-selected"
+
+<h1>Bind with bind-Selected</h1>
+
+<TabSet bind-Selected="@SelectedTab">
+    <Tab Title="First tab">
+        <h4>First tab</h4>
+        First tab content
+    </Tab>
+
+    <Tab Title="Second">
+        <h4>Second tab</h4>
+        Second tab content
+    </Tab>
+
+    <Tab Title="Third">
+        <h4>Third tab</h4>
+        Third tab content
+    </Tab>
+</TabSet>
+
+<p>Change value to select at runtime</p>
+<div>
+    <span>Tab Selected: </span>
+    <input type="number" bind="@SelectedTab" />
+</div>
+
+@functions
+{
+    int selectedTab = 1;
+
+    // This extra prop is a temporary fix for: https://github.com/aspnet/Blazor/issues/610
+    int SelectedTab
+    {
+        get => selectedTab;
+        set
+        {
+            selectedTab = value;
+            StateHasChanged();
+        }
+    }
+
+}

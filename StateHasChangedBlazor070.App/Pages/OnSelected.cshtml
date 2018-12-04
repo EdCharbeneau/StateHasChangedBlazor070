@@ -1,0 +1,37 @@
+﻿@page "/on-selected"
+
+<h1>On Selected Event</h1>
+
+<TabSet SelectedChanged=@OnSelectedChanged>
+    <Tab Title="First tab">
+        <h4>First tab</h4>
+        First tab content
+    </Tab>
+
+    <Tab Title="Second">
+        <h4>Second tab</h4>
+        Second tab content
+    </Tab>
+
+    <Tab Title="Third">
+        <h4>Third tab</h4>
+        Third tab content
+    </Tab>
+</TabSet>
+
+<p>Tab clicked: @selected</p>
+<p>You tabbed @direction</p>
+
+@functions {
+
+    int selected = 0;
+    string direction;
+
+    void OnSelectedChanged(int i)
+    {
+        direction = selected == i ? "nowhere" : 
+                    selected <= i ? "forward" : "back";
+        selected = i;
+        StateHasChanged();
+    }
+}
