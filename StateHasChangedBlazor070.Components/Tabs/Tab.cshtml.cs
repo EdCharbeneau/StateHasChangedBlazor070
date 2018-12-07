@@ -13,6 +13,7 @@ namespace StateHasChangedBlazor070.Components.Tabs
         [Parameter] public RenderFragment ChildContent { get; private set; }
 #pragma warning restore BL9993 // Component parameter is marked public
 
+        [Parameter] protected bool Disabled { get; set; }
 
         [Parameter]         
         /// <summary>
@@ -21,7 +22,8 @@ namespace StateHasChangedBlazor070.Components.Tabs
         protected string Title { get; set; }
 
         protected bool IsActive => ContainerTabSet.ActiveTab == this;
-        protected string ActiveCssClass => IsActive ? "active" : String.Empty;
+        protected string ActiveCssClass => IsActive ? "bl-active" : String.Empty;
+        protected string DisabledCssClass => Disabled ? "bl-disabled" : String.Empty;
 
         protected override void OnInit()
         {
@@ -35,6 +37,7 @@ namespace StateHasChangedBlazor070.Components.Tabs
 
         protected void Activate()
         {
+            if (Disabled) return;
             ContainerTabSet.SetActiveTab(this);
         }
     }

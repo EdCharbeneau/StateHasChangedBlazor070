@@ -1,12 +1,12 @@
 ﻿@inherits TabSetComponent
 @* Display the tab headers *@
 <CascadingValue Value=this>
-    <ul class="nav nav-tabs">
+    <ul class="bl-nav bl-nav-tabs">
         @ChildContent
     </ul>
 </CascadingValue>
 
  @*Display body for only the active tab*@ 
-<div class="nav-tabs-body p-4">
+<div class="bl-nav-tabs-body p-4">
     @ActiveTab?.ChildContent
 </div>
